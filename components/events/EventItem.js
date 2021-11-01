@@ -1,32 +1,45 @@
-import Link from 'next/link';
+import AddressIcon from 'components/icons/address-icon';
+import ArrowRightIcon from 'components/icons/arrow-right-icon';
+import DateIcon from 'components/icons/date-icon';
+import Button from 'components/ui/Button';
 import React from 'react';
+// @ts-ignore
+import classes from './EventItem.module.css';
 
 function EventItem(props) {
-  const { title, image, data, location, id } = props;
+  const { title, image, date, location, id } = props;
 
-  const humanReadableDate = new Date(data).toDateString('en-US', {
+  // @ts-ignore
+  const humanReadableDate = new Date(date).toDateString('en-US', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
   });
   const formattedAddress = location.replace(', ', '\n');
-  const exploreLink = `/event/${id}`;
+  const exploreLink = `/events/${id}`;
 
   return (
-    <li>
+    <li className={classes.item}>
       <img src={'/' + image} alt='' />
-      <div>
-        <div>
+      <div className={classes.content}>
+        <div className={classes.summary}>
           <h2>{title}</h2>
-          <div>
+          <div className={classes.date}>
+            <DateIcon />
             <time>{humanReadableDate}</time>
           </div>
-          <div>
+          <div className={classes.address}>
+            <AddressIcon />
             <address>{formattedAddress}</address>
           </div>
         </div>
-        <div>
-          <Link href={exploreLink}>Explore Event</Link>
+        <div className={classes.actions}>
+          <Button link={exploreLink}>
+            <span>Explore Event</span>
+            <span className={classes.icon}>
+              <ArrowRightIcon />
+            </span>
+          </Button>
         </div>
       </div>
     </li>
